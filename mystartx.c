@@ -6,36 +6,36 @@
 #include <pwd.h>
 
 
+
 int main(int argc, char *argv[])
 {
-	
-
-	const char *homedir = getpwuid(getuid())->pw_dir; //.pw_dir;//pw->pw_dir;
-	if(argc == 1)
+	if(argc < 2)
 	{
-		fprintf(stdout,"de um comando: %s <session>\n\n",argv[0]);
-		return 0;
+		fprintf(stdout,"\033[1;31m pass an argument: %s <session>\033[0m \n\n",argv[0]);
+		return -1;
 	}
+	
+	
+	const char *user_dir = getpwuid(getuid())->pw_dir; //.pw_dir;//pw->pw_dir;
 	const char *xinitrc = "/.xinitrc";
-	char *home = (char*)malloc(sizeof(char)*(strlen(homedir)+strlen(xinitrc))+1);
-	strcpy(home,homedir);
-	strcat(home,xinitrc);
+	
+	char user_xinitrc [strlen(user_dir) + strlen(xinitrc)+1];
+
+	strcpy(user_xinitrc,user_dir);
+	strcat(user_xinitrc,xinitrc);
 
 
-	FILE *file = fopen(home,"w");
+	FILE *file = fopen(user_xinitrc,"w");
+
 	if(file == NULL)
 	{
 		fprintf(stdout,"\033[0;31m Error Creating File .xinitrc\033[0m\n\n");
 		return 1;
 	
 	}
-	int i = 0;
-	for(i = 1; i <=argc;++i)
-	{
-		if(argv[i] != NULL)
-			fprintf(file, "%s ", argv[i]);
-	}
-	
+
+
+	fwrite(argv[1], sizeof(char), strlen(argv[1]), file);
 
 	fclose(file);
 	
