@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 		return 1;
 	
 	}
-
+	 // comentario adicionado.
 
 	fwrite(argv[1], sizeof(char), strlen(argv[1]), file);
 
