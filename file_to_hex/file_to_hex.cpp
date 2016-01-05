@@ -8,8 +8,10 @@ bool fileExist(const char* fileName);
 int main(int argc, char **argv) 
 {
 	std::string arguments;
-	for (auto &itr : std::vector<char*>(argv + 1, argv + argc))
+	for (auto itr : std::vector<char*>(argv + 1, argv + argc)) {
+		arguments += arguments.empty() ? "" : " "; // spacing
 		arguments += itr;
+	}
 
 	if (fileExist(arguments.c_str()))
 	{
